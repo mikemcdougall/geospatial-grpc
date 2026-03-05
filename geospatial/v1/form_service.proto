@@ -6,7 +6,6 @@ syntax = "proto3";
 package geospatial.v1;
 
 import "geospatial/v1/common.proto";
-import "geospatial/v1/spatial_types.proto";
 
 // FormService provides gRPC-native form definition and submission capabilities.
 // Designed as an alternative to OpenRosa XML with type-safe mobile optimization.
