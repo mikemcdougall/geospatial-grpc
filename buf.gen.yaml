@@ -1,0 +1,58 @@
+version: v2
+managed:
+  enabled: true
+  override:
+    - file_option: go_package_prefix
+      value: github.com/geospatial-grpc/proto-go
+    - file_option: java_package_prefix
+      value: io.grpc.geospatial
+plugins:
+  # C# / .NET
+  - remote: buf.build/protocolbuffers/csharp
+    out: gen/csharp
+    opt:
+      - base_namespace=GeospatialGrpc
+
+  # Go
+  - remote: buf.build/protocolbuffers/go
+    out: gen/go
+  - remote: buf.build/grpc/go
+    out: gen/go
+    opt:
+      - paths=source_relative
+
+  # TypeScript / JavaScript (ES modules)
+  - remote: buf.build/connectrpc/es
+    out: gen/typescript
+    opt:
+      - target=ts
+      - import_extension=.js
+
+  # Java
+  - remote: buf.build/protocolbuffers/java
+    out: gen/java
+  - remote: buf.build/grpc/java
+    out: gen/java
+
+  # Python
+  - remote: buf.build/protocolbuffers/python
+    out: gen/python
+  - remote: buf.build/grpc/python
+    out: gen/python
+
+  # Rust
+  - remote: buf.build/community/neoeinstein-prost
+    out: gen/rust
+
+  # Swift
+  - remote: buf.build/grpc/swift
+    out: gen/swift
+
+  # Documentation
+  - remote: buf.build/protocolbuffers/doc
+    out: docs/api
+    opt:
+      - docs/template.md,docs/api.md
+
+inputs:
+  - directory: .

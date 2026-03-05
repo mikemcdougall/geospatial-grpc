@@ -1,0 +1,81 @@
+// Copyright (c) 2026 Geospatial gRPC Standard Contributors.
+// Licensed under the Apache License, Version 2.0. See LICENSE in the project root.
+
+syntax = "proto3";
+
+package geospatial.v1;
+
+import "geospatial/v1/common.proto";
+
+// Geometry definitions for the geospatial gRPC protocol standard
+// Based on OGC Simple Features specification with Protocol Buffers encoding
+
+// Geometry wraps the possible geometry types using structured proto fields.
+message Geometry {
+  oneof shape {
+    PointGeometry point = 1;
+    MultiPointGeometry multi_point = 2;
+    PolylineGeometry polyline = 3;
+    PolygonGeometry polygon = 4;
+    MultiPolygonGeometry multi_polygon = 5;
+  }
+}
+
+// PointGeometry represents a single point.
+message PointGeometry {
+  double x = 1;
+  double y = 2;
+  optional double z = 3;  // Elevation/height
+  optional double m = 4;  // Measure value
+}
+
+// MultiPointGeometry represents a collection of points.
+message MultiPointGeometry {
+  repeated PointGeometry points = 1;
+}
+
+// Coordinate is a single coordinate in a path or ring.
+message Coordinate {
+  double x = 1;
+  double y = 2;
+  optional double z = 3;  // Elevation/height
+  optional double m = 4;  // Measure value
+}
+
+// CoordinateSequence is a sequence of coordinates forming a path or ring.
+message CoordinateSequence {
+  repeated Coordinate coords = 1;
+}
+
+// PolylineGeometry represents one or more paths (LineString/MultiLineString).
+message PolylineGeometry {
+  repeated CoordinateSequence paths = 1;
+}
+
+// PolygonGeometry represents one or more rings (first is exterior, rest are holes).
+message PolygonGeometry {
+  repeated CoordinateSequence rings = 1;
+}
+
+// MultiPolygonGeometry represents a collection of polygons.
+message MultiPolygonGeometry {
+  repeated PolygonGeometry polygons = 1;
+}
+
+// SpatialFilter specifies a spatial query constraint.
+message SpatialFilter {
+  Geometry geometry = 1;
+  SpatialRelationship spatial_relationship = 2;
+  SpatialReference spatial_reference = 3;
+  double distance = 4;
+  DistanceUnit distance_unit = 5;
+  int32 nearest_count = 6;
+  bool return_distance = 7;
+}
+
+// Feature represents a single geographic feature with geometry and attributes.
+message Feature {
+  int64 id = 1;
+  map<string, AttributeValue> attributes = 2;
+  Geometry geometry = 3;
+}

@@ -1,0 +1,17 @@
+version: v2
+modules:
+  - path: .
+    name: buf.build/geospatial/standard
+    deps:
+      - buf.build/googleapis/googleapis
+lint:
+  use:
+    - STANDARD
+    - COMMENTS
+    - FIELD_NAMES
+  except:
+    - ENUM_VALUE_PREFIX
+    - ENUM_ZERO_VALUE_SUFFIX
+breaking:
+  use:
+    - WIRE_JSON
