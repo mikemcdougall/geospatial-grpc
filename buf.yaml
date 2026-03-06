@@ -1,4 +1,4 @@
-version: v2
+version: v1
 modules:
   - path: .
     name: buf.build/geospatial/standard
